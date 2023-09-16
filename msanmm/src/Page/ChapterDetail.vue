@@ -17,8 +17,8 @@
                         }}</v-card-subtitle>
                     </v-card-item>
 
-                    <v-card-text class="m-5">
-                        {{ chapter.body }}
+                    <v-card-text class="m-5 text-justify ">
+                        <p class="chapter-body">{{ chapter.body }}</p>
                     </v-card-text>
                 </v-card>
                 <div v-if="isEdit" class="container chapter-create-section rounded-shaped">
@@ -229,5 +229,9 @@ export default {
     background-color: #fff;
     border-radius: 10px;
     margin-top: 20px;
+}
+
+.chapter-body {
+    line-height: 30px;
 }
 </style>

@@ -181,7 +181,11 @@ export default {
                 this.permission = this.$store.getters.userPermissions
                 if (this.permission == "EDITOR") {
                     this.$router.push('/admin')
-                } else {
+                } else if (this.permission == "AUTHOR") {
+                    const user = this.$store.getters.userData;
+                    this.$router.push({ name: 'ProfilePage', params: { id: user.id } })
+                }
+                else {
                     this.$router.push('/')
                 }
 

@@ -47,6 +47,22 @@
 
                                         <hr class="mx-n3">
 
+                                        <div class="row align-items-center pt-4 pb-3">
+                                            <div class="col-md-3 ps-5">
+
+                                                <h6 class="mb-0">ဘာသာပြန်သူ</h6>
+
+                                            </div>
+                                            <div class="col-md-9 pe-5">
+
+                                                <input v-model="translator" type="text"
+                                                    class="form-control form-control-lg" />
+
+                                            </div>
+                                        </div>
+
+                                        <hr class="mx-n3">
+
                                         <div class="row align-items-center py-3">
                                             <div class="col-md-3 ps-5">
 
@@ -217,7 +233,8 @@ export default {
             title: '',
             description: '',
             categories: '',
-            status: ''
+            status: '',
+            translator: ''
         }
     },
     created() {
@@ -230,6 +247,7 @@ export default {
 
             const formData = new FormData()
             formData.append('title', this.title)
+            formData.append('translator', this.translator)
             formData.append('post_img', this.$refs.imageInput.files[0])
             formData.append('origin_author', this.origin_author)
             formData.append('language', this.language)

@@ -219,4 +219,8 @@ export default {
     border-radius: 20px;
     background-color: rgb(255, 251, 246);
 }
+
+.post-title {
+    font-size: 10px;
+}
 </style>
