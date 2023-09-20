@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg  bg-dark">
             <div class="container-fluid">
 
                 <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
@@ -8,13 +8,15 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <a class="navbar-brand" href="#">Navbar</a>
+                    <a class="navbar-brand" href="#">
+                        <img src="../../public/logo.png" alt="logo set" srcset="" width="80">
+                    </a>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/">Home</router-link>
+                            <router-link class="nav-link" to="/"><i class="fas fa-house"></i> Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/posts">Posts</router-link>
+                            <router-link class="nav-link" to="/posts"><i class="fas fa-book"></i> စာစဉ်များ</router-link>
                         </li>
                         <li v-if="isAuthenticated && userHasPermisssions !== 'READER'" class="nav-item">
                             <router-link class="nav-link" to="/admin">Admin Dashboard</router-link>
@@ -121,6 +123,10 @@ export default {
 }
 </script>
 <style scoped>
+.navbar-nav li a {
+    color: #ffd312c4 !important;
+}
+
 .Btn {
     display: flex;
     align-items: center;

@@ -13,10 +13,14 @@
                                             <img class="col-4"
                                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH3Irh3Hhos6P-VhdswVYAEWQIt7eyv0bXLkbYoDRM&s"
                                                 alt="" style="width: 100px;">
-                                            <span class="text-h5 col-6">
+
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="text-h5">
                                                 Title {{ n }}
                                             </span>
                                         </div>
+
                                         <span class="text-caption">post description and that is so detailed</span>
                                     </v-card>
                                 </v-window-item>
@@ -24,7 +28,6 @@
 
                             <v-card-actions class="justify-space-between">
                                 <v-btn variant="plain" @click="prev"><i class="fas fa-circle-left"></i></v-btn>
-
                                 <v-btn variant="plain" @click="next"><i class="fas fa-circle-right"></i></v-btn>
                             </v-card-actions>
                         </v-card>
