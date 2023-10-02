@@ -32,6 +32,17 @@ const store = createStore({
   actions: {
     // Define actions for logging in, logging out, and fetching user data
 
+    resetAutoLogoutTimer({ dispatch }) {
+      // clear the existing timer
+      clearInterval(this.timerId);
+
+      this.timerId = setInterval(() => {
+        dispatch("logout");
+        alert("!Running out of session. You need to login again");
+        window.location.reload();
+      }, 6000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
+    },
+
     async login({ commit }, { email, password }) {
       try {
         const response = await axios.post("auth/login/", {
@@ -44,6 +55,8 @@ const store = createStore({
         commit("setToken", token);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         await this.dispatch("fetchUserData");
+        // Reset the auto-logout timer
+        this.dispatch("resetAutoLogoutTimer");
         return true;
       } catch (error) {
         console.error("Login error:", error);
@@ -64,6 +77,7 @@ const store = createStore({
       }
     },
     logout({ commit }) {
+      clearInterval(this.timerId);
       localStorage.clear();
       console.log("local storage clear");
       commit("logOut");

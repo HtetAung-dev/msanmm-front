@@ -9,7 +9,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <a class="navbar-brand" href="#">
-                        <img src="../../public/logo.png" alt="logo set" srcset="" width="80">
+                        <img src="../../public/asm_logo.png" alt="logo set" srcset="" width="80">
                     </a>
                     <ul class="navbar-nav">
                         <li class="nav-item">
