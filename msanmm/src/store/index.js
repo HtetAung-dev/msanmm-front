@@ -77,7 +77,6 @@ const store = createStore({
       }
     },
     logout({ commit }) {
-      clearInterval(this.timerId);
       localStorage.clear();
       console.log("local storage clear");
       commit("logOut");

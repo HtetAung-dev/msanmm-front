@@ -237,7 +237,11 @@ export default {
             translator: ''
         }
     },
+    created() {
+        this.getCategories();
+        this.getTagsList();
 
+    },
     methods: {
         async submitCreate() {
 
@@ -316,11 +320,6 @@ export default {
                 alert("can't create tags")
             })
         }
-
-    },
-    created() {
-        this.getCategories();
-        this.getTagsList();
 
     },
 
