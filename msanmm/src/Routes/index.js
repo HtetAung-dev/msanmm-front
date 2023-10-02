@@ -10,7 +10,6 @@ import CategoryPage from "../AdminPage/Category.vue";
 import ChapterCreatePage from "../Page/ChapterCreate.vue";
 import ProfilePage from "../Auth/Profile.vue";
 import ChapterDetailPage from "../Page/ChapterDetail.vue";
-import store from "@/store";
 
 // Admin Page and components
 import LoginPage from "../Auth/Login.vue";
@@ -56,7 +55,6 @@ const routes = [
     path: "/post/new",
     name: "PostCreate",
     component: PostCreatePage,
-    meta: { requiresAuth: true },
   },
   {
     path: "/login",
@@ -88,15 +86,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
-router.beforeEach((to, from, next) => {
-  // Check if the user is logged in
-  if (to.meta.requiresAuth && !store.state.isAuthenticated) {
-    next("/login"); // Redirect to the login page
-    alert("Require Login to author account!!");
-  } else {
-    next();
-  }
 });
 
 export default router;

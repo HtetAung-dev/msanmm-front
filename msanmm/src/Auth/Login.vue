@@ -223,7 +223,7 @@ export default {
 
 
 .bg-glass {
-    background-color: hsla(0, 100%, 98%, 0.9) !important;
+    background-color: hsla(0, 0%, 100%, 0.9) !important;
     backdrop-filter: saturate(200%) blur(25px);
 }
 
@@ -242,9 +242,7 @@ export default {
     padding: 10px 6px;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 2px solid #a8a7a7;
-    border-left: 1px solid #a8a7a7;
-    border-right: 1px solid #a8a7a7;
+    border-bottom: 1px solid #a8a7a7;
     color: #555;
     border-radius: 10px;
 
