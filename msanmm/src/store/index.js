@@ -40,7 +40,7 @@ const store = createStore({
         dispatch("logout");
         alert("!Running out of session. You need to login again");
         window.location.reload();
-      }, 6000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
+      }, 600000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
     },
 
     async login({ commit }, { email, password }) {
