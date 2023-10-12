@@ -16,10 +16,11 @@
                             <router-link class="nav-link" to="/"><i class="fas fa-house"></i> Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/posts"><i class="fas fa-book"></i> စာစဉ်များ</router-link>
+                            <router-link class="nav-link" to="/posts"><i class="fas fa-book"></i>
+                                စာစဉ်များ</router-link>
                         </li>
                         <li v-if="isAuthenticated && userHasPermisssions !== 'READER'" class="nav-item">
-                            <router-link class="nav-link" to="/admin">Admin Dashboard</router-link>
+                            <router-link class="nav-link" to="/admin">Dashboard</router-link>
                         </li>
 
                     </ul>

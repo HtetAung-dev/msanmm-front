@@ -1,12 +1,18 @@
 import { createStore } from "vuex";
 import axios from "axios";
+import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
   state: {
-    token: localStorage.getItem("jwtToken") || null,
-    isAuthenticated: !!localStorage.getItem("jwtToken"),
-    userData: JSON.parse(localStorage.getItem("user")) || {},
-    permissions: localStorage.getItem("permissions") || null,
+    token: null,
+    isAuthenticated: !!localStorage.getItem("token") || false,
+    userData: {},
+    permissions: null,
+    sessionTime: "",
+    // token: localStorage.getItem("jwtToken") || null,
+    // isAuthenticated: !!localStorage.getItem("jwtToken"),
+    // userData: JSON.parse(localStorage.getItem("user")) || {},
+    // permissions: localStorage.getItem("permissions") || null,
   },
   mutations: {
     setToken(state, token) {
@@ -24,7 +30,7 @@ const store = createStore({
     },
     logOut(state) {
       state.isAuthenticated = false;
-      state.user = {};
+      state.userData = {};
       state.token = null;
       state.permissions = null;
     },
@@ -32,15 +38,24 @@ const store = createStore({
   actions: {
     // Define actions for logging in, logging out, and fetching user data
 
-    resetAutoLogoutTimer({ dispatch }) {
+    resetAutoLogoutTimer() {
       // clear the existing timer
-      clearInterval(this.timerId);
 
       this.timerId = setInterval(() => {
-        dispatch("logout");
+        this.dispatch("logout");
         alert("!Running out of session. You need to login again");
         window.location.reload();
-      }, 600000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
+        this.$router.push({ name: "HomePage" });
+      }, 360000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
+
+      console.log("timer set");
+    },
+
+    setHour() {
+      const expire = new Date();
+
+      expire.setHours(expire.getDate() + 1);
+      localStorage.setItem("expiry", expire);
     },
 
     async login({ commit }, { email, password }) {
@@ -68,8 +83,8 @@ const store = createStore({
         const response = await axios.get("auth/login/");
         const userData = response.data["user"];
         commit("loginState", userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("permissions", userData.type);
+        //localStorage.setItem("user", JSON.stringify(userData));
+        //localStorage.setItem("permissions", userData.type);
         commit("setUserPermissions", userData.type);
         commit("setUserData", userData);
       } catch (error) {
@@ -83,6 +98,7 @@ const store = createStore({
       console.log("committed");
       delete axios.defaults.headers.common["Authorization"];
       console.log("axio header cleared!");
+      location.reload();
     },
   },
   getters: {
@@ -90,6 +106,12 @@ const store = createStore({
     isAuthenticated: (state) => state.isAuthenticated,
     userPermissions: (state) => state.permissions,
   },
+  plugins: [
+    createPersistedState({
+      key: "msanmm-app",
+      storage: window.localStorage,
+    }),
+  ],
 });
 
 export default store;

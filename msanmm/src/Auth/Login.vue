@@ -176,12 +176,13 @@ export default {
                 email: this.email,
                 password: this.password
             });
-
+            console.log(success)
             if (success) {
+                console.log("success login")
                 this.permission = this.$store.getters.userPermissions
-                if (this.permission == "EDITOR") {
+                if (this.permission === "EDITOR") {
                     this.$router.push('/admin')
-                } else if (this.permission == "AUTHOR") {
+                } else if (this.permission === "AUTHOR") {
                     const user = this.$store.getters.userData;
                     this.$router.push({ name: 'ProfilePage', params: { id: user.id } })
                 }

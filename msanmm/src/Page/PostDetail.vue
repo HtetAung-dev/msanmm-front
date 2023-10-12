@@ -262,7 +262,8 @@
 
                     <!-- <ChapterDialog class="elevation-2 dialog" v-model="dialog" @close-dialog="dialog = false" /> -->
                     <hr>
-                    <div v-if="this.chapterList.length == 0" class="chapter-none">
+                    <LoaderComponent v-show="isFinished" />
+                    <div v-if="this.chapterList.length == 0 && isFinished === false" class="chapter-none">
                         <h3>အခန်းသစ်များမရှိပါ</h3>
                     </div>
                     <v-expansion-panels v-if="this.chapterList.length > 0">
@@ -331,6 +332,7 @@ export default {
 
             showless: true,
             isLoad: true,
+            isFinished: true,
             post: {},
             isAuthenticated: false,
             userHasPermisssions: null,
@@ -434,9 +436,13 @@ export default {
 
                 const chapters = res.data["data"]
                 this.chapterList = chapters
+                this.isFinished = false;
 
             }).catch((err) => {
+
+                this.isFinished = false;
                 console.error(err)
+
             })
         },
         createChapter() {

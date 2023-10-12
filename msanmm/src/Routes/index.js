@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store";
 import HomePage from "../Page/Home.vue";
 import AboutPage from "../Page/About.vue";
 import CartPage from "../Page/Cart.vue";
@@ -10,6 +11,7 @@ import CategoryPage from "../AdminPage/Category.vue";
 import ChapterCreatePage from "../Page/ChapterCreate.vue";
 import ProfilePage from "../Auth/Profile.vue";
 import ChapterDetailPage from "../Page/ChapterDetail.vue";
+import DashboardLayout from "../Layout/Dashboard.vue";
 
 // Admin Page and components
 import LoginPage from "../Auth/Login.vue";
@@ -81,11 +83,29 @@ const routes = [
     name: "ChapterDetailPage",
     component: ChapterDetailPage,
   },
+  {
+    path: "/dashboard",
+    name: "DashboardLayout",
+    component: DashboardLayout,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!store.getters.isAuthenticated) {
+      router.push({
+        path: "/login",
+        name: "LoginPage",
+      });
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
