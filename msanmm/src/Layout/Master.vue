@@ -75,7 +75,7 @@ export default {
 
     components: {
         NavLayout,
-        FooterLayout
+        FooterLayout,
     },
     computed: {
         getUserPermissions() {

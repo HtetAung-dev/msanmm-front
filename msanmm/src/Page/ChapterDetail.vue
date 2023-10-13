@@ -1,9 +1,27 @@
 <template>
     <div>
         <MasterLayout>
+
             <Loader v-show="!isLoad"></Loader>
+
             <div v-show="isLoad" class="mt-5">
+                <div class="container crumbs my-2">
+                    <div class="container p-2 m-2">
+                        <router-link :to="{ path: '/' }"><span><v-icon
+                                    style="font-size: 18px;">mdi-home</v-icon>Home</span></router-link> >
+
+                        <router-link :to="{ name: 'PostDetail', params: { pid: postId } }"><span><v-icon
+                                    style="font-size: 18px;">mdi-newspaper-variant-outline</v-icon>{{ parentPost.title
+                                    }}</span></router-link>
+
+
+
+                    </div>
+                </div>
+
+
                 <v-card v-if="!isEdit" class="container" max-width="1000">
+
                     <button v-if="this.userData.id === this.puid" type="button" class="btn btn-white btn-floating"
                         @click.prevent="editModeOn">
                         <i class="far fa-pen-to-square"></i>
@@ -16,9 +34,32 @@
                         <v-card-subtitle class="text-center">{{ chapter.season }} / {{ chapter.chapter_no
                         }}</v-card-subtitle>
                     </v-card-item>
+                    <div class="mx-3 align-items-center" width="1000">
+                        <v-btn icon="mdi-format-size" @click="toggleSizing" color="orange"></v-btn>
+                        <v-slider v-show="toggle" v-model="fontsize" append-icon="mdi-magnify-plus-outline"
+                            prepend-icon="mdi-magnify-minus-outline" @click:append="increaseSize"
+                            @click:prepend="decreaseSize"></v-slider>
+                    </div>
+                    <div class="container m-4">
+                        <v-btn v-if="prevChapter > 0"
+                            @click="this.$router.push({ name: 'ChapterDetailPage', params: { cid: prevChapter } })"
+                            density="default" icon="mdi-skip-previous" color="orange" class="mx-2"></v-btn>
+                        <v-btn v-else-if="prevChapter === 0"
+                            @click="this.$router.push({ name: 'ChapterDetailPage', params: { cid: prevChapter } })"
+                            density="default" icon="mdi-skip-previous" color="orange" class="mx-2"></v-btn>
+
+                        <v-btn v-if="nextChapter > 0"
+                            @click="this.$router.push({ name: 'ChapterDetailPage', params: { cid: nextChapter } })"
+                            density="default" icon="mdi-skip-next" color="orange" class="mx-2"></v-btn>
+                        <v-btn v-else-if="nextChapter === 0"
+                            @click="this.$router.push({ name: 'ChapterDetailPage', params: { cid: nextChapter } })"
+                            density="default" icon="mdi-skip-next" color="orange" class="mx-2" :disabled="true"></v-btn>
+                    </div>
+
 
                     <v-card-text class="m-5 text-justify ">
-                        <p class="chapter-body">{{ chapter.body }}</p>
+
+                        <p :style="`font-size :${fontsize}px;`" class="chapter-body">{{ chapter.body }}</p>
                     </v-card-text>
                 </v-card>
                 <div v-if="isEdit" class="container chapter-create-section rounded-shaped">
@@ -94,9 +135,15 @@ export default {
             userData: {},
             editData: {},
             puid: 0,
+            id: this.$route.params.cid,
+            postId: 0,
             parentPost: {},
             chapterAccess: false,
+            toggle: false,
             chapterStatus: '',
+            prevChapter: 0,
+            nextChapter: 0,
+            fontsize: 17,
             titleRules: [
                 v => {
                     if (v) return true
@@ -128,19 +175,63 @@ export default {
         }
     },
     methods: {
-        getChapterDetail() {
-            const id = this.$route.params.cid;
+        toggleSizing() {
+            this.toggle = !this.toggle;
+        },
+        increaseSize() {
+            this.fontsize += 2;
+        },
+        decreaseSize() {
+            this.fontsize -= 2;
+        },
+        getChapterDetail(id) {
+
             console.log('chapter id', id)
             axios.get(`posts/chapter/${id}/`).then((result) => {
                 console.log("data chapter", result.data["data"])
                 this.chapter = result.data["data"]
+                //const cid = this.chapter.id
                 this.isLoad = true
+                //this.getPrevChapter(cid)
+                //this.getNextChapter(cid)
+                console.log("prev chapter", this.prevChapter)
+                console.log("next chapter", this.nextChapter)
 
                 this.getChapterParentPost()
             }).catch((err) => {
                 alert("Can't find chapter by this id! ERR:", err)
             });
 
+        },
+        getPrevChapter() {
+            const id = this.id
+            console.log('prev id', id)
+
+            axios.get(`posts/${id}/prev/`).then((result) => {
+                console.log("prev chapter", result.data["data"])
+                const chapter = result.data["data"]
+                if (chapter.post != null) {
+                    this.prevChapter = chapter.id
+                }
+
+            }).catch((err) => {
+                alert("Can't find chapter by this id! ERR:", err)
+            });
+        },
+        getNextChapter() {
+            const id = this.id
+            console.log('next id', id)
+            axios.get(`posts/${id}/next/`).then((result) => {
+                console.log("next chapter", result.data["data"])
+                const chapter = result.data["data"]
+                if (chapter.post != null) {
+                    this.nextChapter = chapter.id
+                }
+
+
+            }).catch((err) => {
+                alert("Can't find chapter by this id! ERR:", err)
+            });
         },
         setFreeAccess() {
             if (this.editData.access) {
@@ -156,6 +247,7 @@ export default {
             console.log("chapter parent", id)
             axios.get(`posts/detail/${id}`).then((result) => {
                 this.parentPost = result.data["data"]
+                this.postId = this.parentPost.id
                 this.puid = this.parentPost.author.id
             }).catch((err) => {
                 console.error("parent post not found", err)
@@ -199,9 +291,16 @@ export default {
                 alert("update error")
                 console.error("error while updating", err)
             });
+        },
+        loadContent(id) {
+            this.id = this.$route.params.cid;
+            this.getChapterDetail(id);
+            this.getPrevChapter();
+            this.getNextChapter();
         }
     },
     computed: {
+
         getAuthentication() {
             return this.$store.getters.isAuthenticated;
         },
@@ -210,17 +309,28 @@ export default {
         },
         getUserData() {
             return this.$store.getters.userData
+        },
+        getCurrentParam() {
+            return this.$route.params.cid
         }
     },
     created() {
-        this.getChapterDetail()
-
+        this.getChapterDetail(this.id)
+        this.getPrevChapter()
+        this.getNextChapter()
         this.isAuthenticated = this.getAuthentication
         this.userHasPermission = this.getPermissions
         this.userData = this.getUserData
     }, watch: {
+        nextChapter: 'getNextChapter',
+        prevChapter: 'getPrevChapter',
         userData: 'checkedSameUser',
-        puid: 'checkedSameUser'
+        puid: 'checkedSameUser',
+        $route(to, from) {
+            if (to.params.cid !== from.params.cid) {
+                this.loadContent(to.params.cid)
+            }
+        }
     },
 }
 </script>
@@ -233,5 +343,15 @@ export default {
 
 .chapter-body {
     line-height: 30px;
+}
+
+.crumbs-block {
+    max-width: 1000px;
+}
+
+.crumbs {
+    max-width: 1000px !important;
+    height: 50px;
+    background-color: #fff;
 }
 </style>
