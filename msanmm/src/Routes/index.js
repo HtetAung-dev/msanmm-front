@@ -12,6 +12,16 @@ import ChapterCreatePage from "../Page/ChapterCreate.vue";
 import ProfilePage from "../Auth/Profile.vue";
 import ChapterDetailPage from "../Page/ChapterDetail.vue";
 import DashboardLayout from "../Layout/Dashboard.vue";
+import HorrorPage from "../Page/Horror.vue";
+import ReaderPage from "../Page/ReaderProfile.vue";
+import SettingComponent from "../Component/Setting.vue";
+import InfoComponent from "../Component/Info.vue";
+import HorrorCreatePage from "../Page/HorrorCreate.vue";
+import HChapterCreatePage from "../Page/HChapterCreate.vue";
+import HorrorDetailPage from "../Page/HorrorDetail.vue";
+import HChapterDetailPage from "../Page/HChapterDetail.vue";
+import PostsComponent from "../AdminPage/PostComponent.vue";
+import HorrorsComponent from "../AdminPage/HorrorPost.vue";
 
 // Admin Page and components
 import LoginPage from "../Auth/Login.vue";
@@ -77,6 +87,21 @@ const routes = [
     path: "/user/:id/profile",
     name: "ProfilePage",
     component: ProfilePage,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: "posts",
+        name: "AdminPosts",
+        component: PostsComponent,
+      },
+      {
+        path: "horrors",
+        name: "HorrorPosts",
+        component: HorrorsComponent,
+      },
+    ],
   },
   {
     path: "/chapter/:cid",
@@ -87,6 +112,54 @@ const routes = [
     path: "/dashboard",
     name: "DashboardLayout",
     component: DashboardLayout,
+  },
+  {
+    path: "/horror",
+    name: "HorrorPage",
+    component: HorrorPage,
+  },
+  {
+    path: "/my/profile/:id",
+    name: "ReaderPage",
+    component: ReaderPage,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: "setting",
+        name: "Setting",
+        component: SettingComponent,
+      },
+      {
+        path: "info",
+        name: "Info",
+        component: InfoComponent,
+      },
+    ],
+  },
+  {
+    path: "/horror/create",
+    name: "HorrorCreatePage",
+    component: HorrorCreatePage,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/horror-post/:hid",
+    name: "HorrorDetail",
+    component: HorrorDetailPage,
+  },
+  {
+    path: "/horror-post/:id/create-chapter",
+    name: "HChapterCreate",
+    component: HChapterCreatePage,
+  },
+  {
+    path: "/horror-chapter/:id",
+    name: "HChapterDetail",
+    component: HChapterDetailPage,
   },
 ];
 
@@ -102,6 +175,8 @@ router.beforeEach((to, from, next) => {
         path: "/login",
         name: "LoginPage",
       });
+    } else {
+      next();
     }
   } else {
     next();

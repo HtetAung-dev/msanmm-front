@@ -5,10 +5,11 @@ import createPersistedState from "vuex-persistedstate";
 const store = createStore({
   state: {
     token: null,
-    isAuthenticated: !!localStorage.getItem("token") || false,
+    isAuthenticated: !!localStorage.getItem("jwtToken") || false,
     userData: {},
     permissions: null,
     sessionTime: "",
+    axiosHeaders: {},
     // token: localStorage.getItem("jwtToken") || null,
     // isAuthenticated: !!localStorage.getItem("jwtToken"),
     // userData: JSON.parse(localStorage.getItem("user")) || {},
@@ -34,6 +35,9 @@ const store = createStore({
       state.token = null;
       state.permissions = null;
     },
+    setAxiosHeader(state, headers) {
+      state.axiosHeaders = headers;
+    },
   },
   actions: {
     // Define actions for logging in, logging out, and fetching user data
@@ -46,7 +50,7 @@ const store = createStore({
         alert("!Running out of session. You need to login again");
         window.location.reload();
         this.$router.push({ name: "HomePage" });
-      }, 360000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
+      }, 3600000); // Set the timer interval (e.g., 600,000 ms = 1 hour)
 
       console.log("timer set");
     },
@@ -69,6 +73,7 @@ const store = createStore({
         localStorage.setItem("jwtToken", token);
         commit("setToken", token);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        commit("setAxiosHeader", axios.defaults.headers.common);
         await this.dispatch("fetchUserData");
         // Reset the auto-logout timer
         this.dispatch("resetAutoLogoutTimer");
@@ -110,6 +115,7 @@ const store = createStore({
     createPersistedState({
       key: "msanmm-app",
       storage: window.localStorage,
+      paths: ["token", "axiosHeaders", "permissions", "userData"],
     }),
   ],
 });

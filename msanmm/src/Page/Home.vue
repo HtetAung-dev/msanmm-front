@@ -52,7 +52,7 @@
                                     <span v-if="post.status == 'ONGOING'"
                                         class="badge rounded-pill badge-warning post-status latest-status"
                                         data-mdb-toggle="tooltip" data-mdb-placement="top"
-                                        title="This serires is ongoing."><i class="fas fa-face-grin-hearts"></i> {{
+                                        title="This series is ongoing."><i class="fas fa-face-grin-hearts"></i> {{
                                             post.status }}</span>
                                     <span v-if="post.status == 'COMPLETED'"
                                         class="badge rounded-pill badge-danger post-status latest-status"
@@ -81,9 +81,9 @@
                 </v-sheet>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-8 post-section-container">
 
-                            <div class="posts-section my-2 " max-width="550px">
+                            <div class="posts-section my-2 ">
                                 <h4 style="width: 100%; margin-top: -40px;">စာစဉ်များ</h4>
                                 <LoaderComponent v-show="isLoad" />
                                 <div v-show="!isLoad" class="row">
@@ -358,6 +358,10 @@ export default {
     margin: 10px;
 }
 
+.post-section-container {
+    padding-left: 0 !important;
+}
+
 .card-holder {
     max-width: 380px;
 }
@@ -463,6 +467,11 @@ export default {
     .popular-card {
         width: 80px;
         height: 150px;
+    }
+
+
+    .post-section-container {
+        padding-right: 0 !important;
     }
 
     .editor-title {

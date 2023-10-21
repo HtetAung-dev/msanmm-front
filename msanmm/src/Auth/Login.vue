@@ -78,7 +78,7 @@
                             </form>
                         </div>
                         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-                            <form>
+                            <form @submit.prevent="register">
                                 <div class="text-center mb-3">
                                     <p>Sign up with:</p>
                                     <button type="button" class="btn btn-link btn-floating mx-1">
@@ -101,47 +101,48 @@
                                 <p class="text-center">or:</p>
 
                                 <!-- Name input -->
-                                <div>
-                                    <label class="input-label" for="form12">Example label</label>
-                                    <input class="txt-input" type="text" id="form12" />
-
-                                </div>
 
                                 <!-- Username input -->
                                 <div>
                                     <label class="input-label" for="registerUsername">Username</label>
-                                    <input class="txt-input" type="text" id="registerUsername" />
+                                    <input class="txt-input" type="text" maxlength="40" v-model="username"
+                                        id="registerUsername" title="Username is invalid" required />
                                 </div>
 
                                 <!-- Email input -->
                                 <div>
                                     <label class="input-label" for="registerEmail">Email</label>
-                                    <input class="txt-input" type="email" id="registerEmail" />
+                                    <input class="txt-input" v-model="email" type="email" id="registerEmail"
+                                        pattern="[a-zA-Z][0-9]\/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/"
+                                        title="Email is invalid" required />
                                 </div>
 
                                 <!-- Password input -->
                                 <div>
                                     <label class="input-label" for="registerPassword">Password</label>
-                                    <input class="txt-input" type="password" id="registerPassword" />
+                                    <input class="txt-input" type="password" minlength="8" v-model="password"
+                                        id="registerPassword" title="Please enter at least 8 characters" required />
                                 </div>
 
                                 <!-- Repeat Password input -->
                                 <div>
-                                    <label class="input-label" for="registerRepeatPassword">Repeat password</label>
-                                    <input class="txt-input" type="password" id="registerRepeatPassword" />
+                                    <label class="input-label" for="registerRepeatPassword">Confirm Password</label>
+                                    <input class="txt-input" type="password" minlength="8"
+                                        title="Please enter the same password again" v-model="confirmPassword"
+                                        id="registerConfirmPassword" required />
                                 </div>
 
                                 <!-- Checkbox -->
                                 <div class="form-check d-flex justify-content-center">
-                                    <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
-                                        aria-describedby="registerCheckHelpText" />
+                                    <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck"
+                                        required aria-describedby="registerCheckHelpText" />
                                     <label class="form-check-label" for="registerCheck">
                                         I have read and agree to the terms
                                     </label>
                                 </div>
 
                                 <!-- Submit button -->
-                                <button type="submit" class="login-btn">Sign in</button>
+                                <button type="submit" class="login-btn">Register</button>
                             </form>
                         </div>
                     </div>
@@ -153,6 +154,7 @@
 </template>
 <script>
 
+import axios from 'axios';
 import MasterLayout from '../Layout/Master.vue'
 import { useStore } from 'vuex'
 
@@ -166,6 +168,8 @@ export default {
             email: '',
             password: '',
             token: '',
+            confirmPassword: '',
+            userType: 'READER',
             store: useStore,
             permission: ''
         };
@@ -193,13 +197,39 @@ export default {
 
             }
 
+        },
+        async register() {
+            if (this.password === this.confirmPassword) {
+                try {
+
+                    const success = await axios.post('auth/signup/',
+                        {
+                            email: this.email,
+                            username: this.username,
+                            password: this.password,
+                            type: this.userType
+
+                        });
+                    if (success) {
+                        console.log(success)
+                        document.getElementById('tab-register').ariaSelected(false)
+                    }
+
+                } catch (err) {
+                    console.error("failed to register user!", err)
+                }
+            } else {
+                alert('passwords didn\'t match!');
+            }
+
+
         }
     }
 }
 </script>
 <style scoped>
 .background-radial-gradient {
-    background-color: hsl(218, 41%, 15%);
+    background-color: hsl(219, 100%, 31%);
     background-image: radial-gradient(650px circle at 0% 0%,
             hsl(218, 41%, 35%) 15%,
             hsl(218, 41%, 30%) 35%,
@@ -215,21 +245,24 @@ export default {
 }
 
 .login-container {
-    width: 500px;
+    width: 400px;
     min-height: 600px;
     padding: 40px;
     margin: 30px auto;
     border-radius: 10px;
+    color: #fffefe;
+    box-shadow:
+        0.3em 0.3em 1em rgba(29, 130, 224, 0.573);
 }
 
 
 .bg-glass {
-    background-color: hsla(0, 0%, 100%, 0.9) !important;
-    backdrop-filter: saturate(200%) blur(25px);
+    /* background-color: hsla(0, 0%, 100%, 0.9) !important; */
+    backdrop-filter: saturate(200%) blur(40px);
 }
 
 .input-label {
-    color: #585858;
+    color: #e6e2e2;
     display: inline-block;
     margin: 25px 0 15px;
     font-size: 0.6em;
@@ -243,10 +276,19 @@ export default {
     padding: 10px 6px;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid #a8a7a7;
-    color: #555;
+    border: 1px solid #f6f3f3;
+    color: #ffffff;
     border-radius: 10px;
 
+}
+
+
+.txt-input:invalid {
+    border: 1px solid #ff0000;
+}
+
+.txt-input:focus:invalid {
+    border: 1px solid #f6f3f3;
 }
 
 .login-footer {
@@ -283,7 +325,7 @@ export default {
 }
 
 .btn {
-    background: #fffefe;
+    background: #02133d;
     box-shadow: 1px #a8a7a7;
 }
 </style>

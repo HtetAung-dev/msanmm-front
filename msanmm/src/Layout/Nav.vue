@@ -13,11 +13,19 @@
                     </a>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/"><i class="fas fa-house"></i> Home</router-link>
+                            <router-link class="nav-link" to="/"><i class="fas fa-house"></i> ပင်မစာမျက်နှာ</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link" to="/posts"><i class="fas fa-book"></i>
                                 စာစဉ်များ</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/horror"><i class="fa-solid fa-ghost"></i>
+                                ညမဖတ်ရစာပေ</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/posts"><i class="fa-solid fa-podcast"></i>
+                                Audio ကဏ္ဍ</router-link>
                         </li>
                         <li v-if="isAuthenticated && userHasPermisssions !== 'READER'" class="nav-item">
                             <router-link class="nav-link" to="/admin">Dashboard</router-link>
@@ -48,7 +56,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                             <li>
                                 <router-link class="dropdown-item"
-                                    :to="{ name: 'ProfilePage', params: { id: this.user.id || 0 } }">My
+                                    :to="{ name: 'ReaderPage', params: { id: this.user.id || 0 } }">My
                                     profile</router-link>
                             </li>
                             <li>

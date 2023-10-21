@@ -64,6 +64,7 @@ export default {
             season: '',
             chapterNo: '',
             chapterAccess: false,
+            token: JSON.stringify(localStorage.getItem('msanmm-app').token),
             access: null,
             yes: 'Free ဖတ်ရှုခွင့် ပြုမည်',
             no: 'Free ဖတ်ရှုခွင့် မပြုပါ! အောက်တွင် ဈေးနှုန်းသတ်မှတ်ပေးပါ။',
@@ -107,6 +108,7 @@ export default {
 
         },
 
+
         getCurrentUser() {
             return this.$store.getters.userData;
         },
@@ -119,7 +121,8 @@ export default {
             }
         },
         async createChapter() {
-
+            console.log(this.$store.state.token)
+            this.$store.state.axiosHeaders
             const formData = new FormData();
             formData.append('post', this.$route.params.id)
             formData.append('season', this.season)
@@ -128,17 +131,10 @@ export default {
             formData.append('body', this.body)
             formData.append('access', this.chapterAccess)
             formData.append('price', this.price)
-            // post: this.$route.params.id,
-            // season: this.season,
-            // chapter_no: this.chapterNo,
-            // title: this.title,
-            // body: this.body,
-            // access: this.chapterAccess,
-            // price: this.price
             try {
-                const res = await axios.post("posts/chapters/create/", formData, { headers: { 'Content-Type': 'multipart/form-data ', 'Authorization': `Bearer ${this.$store.state.token}` } });
+                const res = await axios.post("horrors/chapters/create/", formData, { headers: { 'Content-Type': 'multipart/form-data ', 'Authorization': `Bearer ${this.$store.state.token}` } });
                 console.log("chapter created", res)
-                this.$router.push({ name: 'HorrorDetail', params: { id: this.$route.params.id } })
+                this.$router.push({ name: 'HorrorDetail', params: { hid: this.$route.params.id } })
             } catch (error) {
                 console.error("chapter creation failed!", error)
             }
@@ -148,7 +144,7 @@ export default {
 
     },
     computed() {
-
+        this.getAuthenticated
     },
     created() {
         this.setFreeAccess()

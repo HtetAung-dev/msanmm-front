@@ -8,7 +8,7 @@
                 <v-app-bar class="toolbar">
                     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                    <v-toolbar-title>Msanmm Dashboard</v-toolbar-title>
+                    <v-toolbar-title>Msanmm</v-toolbar-title>
 
                     <v-spacer></v-spacer>
 
@@ -23,12 +23,16 @@
                     <v-list>
                         <v-list-item title="Home" prepend-icon="mdi-home"
                             @click="this.$router.push({ path: '/' })"></v-list-item>
+                        <v-list-item title="Profile" prepend-icon="mdi-pencil-outline"
+                            @click="this.$router.push({ name: 'ProfilePage', params: { id: this.user.id || 0 } })"></v-list-item>
                         <v-list-item title="Create Posts" prepend-icon="mdi-pencil-outline"
                             @click="this.$router.push({ path: '/post/new' })"></v-list-item>
+                        <v-list-item title="ညမဖတ်ရစာပေများ" prepend-icon="mdi-pencil-outline"
+                            @click="this.$router.push({ path: '/horror/create' })"></v-list-item>
                     </v-list>
                 </v-navigation-drawer>
 
-                <v-main style="height: 100%; overflow: scroll;">
+                <v-main class="main-section" style="height: 100%; overflow: scroll;">
                     <slot />
                 </v-main>
 
@@ -38,7 +42,7 @@
         <div v-else>
             <NavLayout />
 
-            <main>
+            <main class="main-section">
                 <slot />
             </main>
             <FooterLayout />
@@ -64,6 +68,7 @@ export default {
             Authenticated: false,
             drawer: false,
             group: null,
+            user: {}
         }
     },
     methods: {
@@ -85,10 +90,14 @@ export default {
         getAuthenticated() {
             return this.$store.getters.isAuthenticated;
         },
+        getCurrentUser() {
+            return this.$store.getters.userData;
+        },
     },
     created() {
         this.permission = this.getUserPermissions;
         this.Authenticated = this.getAuthenticated;
+        this.user = this.getCurrentUser;
     },
     watch: {
         group() {
@@ -100,6 +109,23 @@ export default {
 </script>
 
 <style scoped>
+.main-section {
+    background-color: hsl(219, 49%, 37%);
+    background-image: radial-gradient(650px circle at 10% 0%,
+            hsl(218, 41%, 35%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%),
+        radial-gradient(1250px circle at 100% 100%,
+            hsl(218, 41%, 45%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%);
+
+}
+
 .toolbar {
     background-image: linear-gradient(to right, rgb(25, 25, 25), rgb(101, 101, 101), rgb(59, 59, 59)) !important;
     background-blend-mode: luminosity;
