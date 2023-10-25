@@ -212,7 +212,7 @@ export default {
                         });
                     if (success) {
                         console.log(success)
-                        document.getElementById('tab-register').ariaSelected(false)
+
                     }
 
                 } catch (err) {

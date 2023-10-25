@@ -9,7 +9,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <a class="navbar-brand" href="#">
-                        <img src="../../public/asm_logo.png" alt="logo set" srcset="" width="80">
+                        <img src="../../public/asm_logo.png" alt="logo set" srcset="" width="60">
                     </a>
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -24,7 +24,7 @@
                                 ညမဖတ်ရစာပေ</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/posts"><i class="fa-solid fa-podcast"></i>
+                            <router-link class="nav-link" to="/audio"><i class="fa-solid fa-podcast"></i>
                                 Audio ကဏ္ဍ</router-link>
                         </li>
                         <li v-if="isAuthenticated && userHasPermisssions !== 'READER'" class="nav-item">

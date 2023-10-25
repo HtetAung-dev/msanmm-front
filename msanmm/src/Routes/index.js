@@ -22,7 +22,12 @@ import HorrorDetailPage from "../Page/HorrorDetail.vue";
 import HChapterDetailPage from "../Page/HChapterDetail.vue";
 import PostsComponent from "../AdminPage/PostComponent.vue";
 import HorrorsComponent from "../AdminPage/HorrorPost.vue";
-
+import AudioComponent from "../AdminPage/AudioComponent.vue";
+import AudioPage from "../Page/Audio.vue";
+import AudioCreatePage from "../Page/AudioCreate.vue";
+import AudioDetailPage from "../Page/AudioDetail.vue";
+import AEpisodeCreate from "../Page/AEpisodeCreate.vue";
+import AEpisodeDetail from "../Page/AEpisodeDetail.vue";
 // Admin Page and components
 import LoginPage from "../Auth/Login.vue";
 import AdminPage from "../Auth/Admin.vue";
@@ -59,9 +64,19 @@ const routes = [
     component: PostDetailPage,
   },
   {
+    path: "/audio/:id",
+    name: "AudioDetail",
+    component: AudioDetailPage,
+  },
+  {
     path: "/post/:id/create-chapter",
     name: "ChapterCreate",
     component: ChapterCreatePage,
+  },
+  {
+    path: "/audio/:id/episode-create",
+    name: "AEpisodeCreate",
+    component: AEpisodeCreate,
   },
   {
     path: "/post/new",
@@ -101,6 +116,11 @@ const routes = [
         name: "HorrorPosts",
         component: HorrorsComponent,
       },
+      {
+        path: "audios",
+        name: "AudioPosts",
+        component: AudioComponent,
+      },
     ],
   },
   {
@@ -117,6 +137,19 @@ const routes = [
     path: "/horror",
     name: "HorrorPage",
     component: HorrorPage,
+  },
+  {
+    path: "/audio",
+    name: "AudioPage",
+    component: AudioPage,
+  },
+  {
+    path: "/audio/create",
+    name: "AudioCreate",
+    component: AudioCreatePage,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/my/profile/:id",
@@ -155,6 +188,11 @@ const routes = [
     path: "/horror-post/:id/create-chapter",
     name: "HChapterCreate",
     component: HChapterCreatePage,
+  },
+  {
+    path: "/audio-episode/:id",
+    name: "AEpisodeDetail",
+    component: AEpisodeDetail,
   },
   {
     path: "/horror-chapter/:id",

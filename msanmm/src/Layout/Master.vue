@@ -37,7 +37,7 @@
                 </v-main>
 
             </v-layout>
-            <FooterLayout />
+            <FooterLayout class="mt-1" />
         </v-card>
         <div v-else>
             <NavLayout />

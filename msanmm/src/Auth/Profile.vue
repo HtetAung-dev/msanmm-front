@@ -91,6 +91,7 @@ export default {
             items: [
                 { text: 'Posts', icon: 'mdi-information', page: 'AdminPosts' },
                 { text: 'Horror Posts', icon: 'mdi-ghost', page: 'HorrorPosts' },
+                { text: 'Audio ကဏ္ဍ', icon: 'mdi-book-music', page: 'AudioPosts' },
                 { text: 'Account Setting', icon: 'mdi-account-cog', page: 'Setting' },
                 { text: 'Buy Coin', icon: 'mdi-cash-plus', page: 'PurchaseCoin' },
                 { text: 'Order History', icon: 'mdi-file-clock', page: 'OrderHistory' },
