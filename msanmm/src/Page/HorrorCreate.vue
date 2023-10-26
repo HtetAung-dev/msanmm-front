@@ -158,7 +158,7 @@
 import MasterLayout from "../Layout/Master.vue"
 import axios from 'axios'
 export default {
-    name: "HorrorCreate",
+    name: "HorrorCreatePage",
     components: {
         MasterLayout,
     },
