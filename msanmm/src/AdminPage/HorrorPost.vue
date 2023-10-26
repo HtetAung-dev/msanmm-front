@@ -6,7 +6,7 @@
                 ညမဖတ်ရ စာစဉ်များ
             </h3>
             <button type="button" class="btn btn-primary btn-lg btn-floating float-end col-1"
-                @click="this.$router.push({ name: 'HorrorCreate' })">
+                @click="this.$router.push({ name: 'HorrorCreatePage' })">
                 <i class="far fa-pen-to-square"></i>
                 <v-tooltip activator="parent" location="left">Create New</v-tooltip>
 

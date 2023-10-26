@@ -258,24 +258,11 @@ export default {
                 formData.append('tags', tag)
             }
 
-
-            // const data = {
-            //     title: this.title,
-            //     post_img: this.tempImageUrl,
-            //     origin_author: this.origin_author,
-            //     language: this.language,
-            //     categories: this.categories,
-            //     description: this.description,
-            //     tags: this.tags
-
-            // };
-            //console.log("data: ", JSON.stringify(data));
-            //console.log("image file ", data.post_img)
             try {
-                const response = await axios.post('audios/audio/', formData, { headers: { 'Content-Type': 'multipart/form-data ', 'Authorization': `Bearer ${this.$store.state.token}` } });
+                const response = await axios.post('audios/audio/', formData, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${this.$store.state.token}` } });
 
                 console.log('Post created: ', response.data)
-                this.$router.push({ name: 'AudioDetail', params: { pid: response.data["id"] } })
+                this.$router.push({ name: 'AudioDetail', params: { id: response.data["id"] } })
             } catch (error) {
                 console.error('Error creating post', error)
             }
