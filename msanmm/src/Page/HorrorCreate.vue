@@ -195,7 +195,7 @@ export default {
 
             try {
                 console.log(axios.defaults.headers.common['Authorization'])
-                const response = await axios.post('horrors/horror/', formData, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': this.$store.state.token } });
+                const response = await axios.post('horrors/horror/', formData, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${this.$store.state.token}` } });
 
                 console.log('Post created: ', response.data)
                 this.$router.push({ name: 'HorrorDetail', params: { hid: response.data["id"] } })
