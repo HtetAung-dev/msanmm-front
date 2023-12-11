@@ -14,6 +14,6 @@ const vuetify = createVuetify({
   directives,
 });
 
-axios.defaults.baseURL = "http://18.139.245.190/";
+axios.defaults.baseURL = "http://18.139.245.190:8001/";
 //axios.defaults.baseURL = "http://127.0.0.1:8000/";
 createApp(App).use(router).use(store).use(vuetify).mount("#app");

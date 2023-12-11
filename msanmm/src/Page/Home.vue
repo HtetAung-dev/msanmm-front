@@ -236,7 +236,7 @@
                     </div>
                     <LoaderComponent v-show="isALoad" />
                     <div v-show="!isALoad" class="row ma-2 ">
-                        <div class="col-sm-3" v-for="post in  paginatedAudioPosts" :key="post.id">
+                        <div class="col-sm-4" v-for="post in  paginatedAudioPosts" :key="post.id">
                             <div class="latest-chapters card m-1">
 
                                 <div class="card-body p-0 m-1 bg-img">
